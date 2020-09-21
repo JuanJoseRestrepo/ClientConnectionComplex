@@ -49,6 +49,8 @@ public class DirectMessage {
 	}
 	
 	
-	
+	public String getType() {
+		return type;
+	}
 	
 }

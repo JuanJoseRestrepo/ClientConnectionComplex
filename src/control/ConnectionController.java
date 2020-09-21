@@ -15,6 +15,7 @@ public class ConnectionController implements TCPConnection.OnConnectionListener 
 	private ConnectionWindow view;
 	private TCPConnection connection;
 	
+	
 	public ConnectionController(ConnectionWindow view) {
 		this.view = view;
 		init();
@@ -62,7 +63,6 @@ public class ConnectionController implements TCPConnection.OnConnectionListener 
 		connection.getEmisor().setMessage(msj);
 		
 	}
-	
 	
 
 }

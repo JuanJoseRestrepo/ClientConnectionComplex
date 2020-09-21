@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,7 +20,7 @@ public class ChadWindow extends Stage{
 	private TextArea textChat;
 	private TextField chatWithUser;
 	private Button send;
-	private Button broadCast;
+	private ToggleButton broadCast;
 	private ChadController control;
 	
 	public ChadWindow() {
@@ -31,7 +32,7 @@ public class ChadWindow extends Stage{
 		textChat = new TextArea();
 		chatWithUser = new TextField();
 		send = new Button(">");
-		broadCast = new Button("Todos");
+		broadCast = new ToggleButton("Todos");
 		
 		vbox1.getChildren().add(broadCast);
 		hbox.getChildren().add(vbox1);
@@ -97,6 +98,13 @@ public class ChadWindow extends Stage{
 		this.send = send;
 	}
 
-	
+	public ToggleButton getBroadCast() {
+		return broadCast;
+	}
+
+	public void setBroadCast(ToggleButton broadCast) {
+		this.broadCast = broadCast;
+	}
+
 
 }

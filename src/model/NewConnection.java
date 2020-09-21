@@ -1,16 +1,18 @@
 package model;
 
-public class UserMessage {
-	public String type = "UserMessage";
+public class NewConnection {
+
+	public String type = "NewConnection";
 	private String id;
 	private String body;
 	private String date;
 	
-	public UserMessage() {
+	//Gson
+	public NewConnection() {
 		
 	}
 	
-	public UserMessage(String id,String body,String date) {
+	public NewConnection(String id,String body,String date) {
 		this.id = id;
 		this.body = body;
 		this.date = date;

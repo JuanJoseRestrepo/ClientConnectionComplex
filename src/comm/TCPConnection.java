@@ -68,6 +68,18 @@ public class TCPConnection extends Thread {
 			
 	}
 
+	
+	public void closeSocket() {
+		
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void setConnectionListener(OnConnectionListener connectionListener) {
 		this.connectionListener = connectionListener;
 	}
