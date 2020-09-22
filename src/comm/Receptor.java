@@ -15,8 +15,6 @@ public class Receptor extends Thread {
 	private InputStream is;
 	
 	public OnMessageListener listener;
-
-	private ConnectionController s1;
 	
 	public Receptor(InputStream is){
 		this.is = is;
@@ -31,14 +29,14 @@ public class Receptor extends Thread {
 			
 			try {
 				String msj = breader.readLine();
-				if(msj != null) {
-				Gson json = new Gson();
-				
-					
-				System.out.println("Recibido" +msj);
+				if(msj != null) {				
+				//System.out.println("Recibido:" +msj);
 				listener.onMessage(msj);
+				}else {
+					breader.close();
+					is.close();
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -57,7 +57,7 @@ public class ConnectionController implements TCPConnection.OnConnectionListener 
 	public void onConnectionListener() {
 		
 		String nombre = view.getTextNombre().getText();
-		UserMessage m = new UserMessage(nombre,"","");
+		UserMessage m = new UserMessage(nombre,"Conectado","");
 		Gson gson = new Gson();
 		String msj = gson.toJson(m);
 		connection.getEmisor().setMessage(msj);

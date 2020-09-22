@@ -1,5 +1,7 @@
 package view;
 
+import java.util.ArrayList;
+
 import control.ChadController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -35,6 +38,7 @@ public class ChadWindow extends Stage{
 		broadCast = new ToggleButton("Todos");
 		
 		vbox1.getChildren().add(broadCast);
+		vbox1.setPrefSize(120.0, 120.0);
 		hbox.getChildren().add(vbox1);
 		hbox.getChildren().add(vbox);
 		
@@ -44,7 +48,7 @@ public class ChadWindow extends Stage{
 		hboxAux.getChildren().add(chatWithUser);
 		hboxAux.getChildren().add(send);
 		
-		scene = new Scene(hbox,400,400);
+		scene = new Scene(hbox,600,400);
 		this.setScene(scene);
 		
 		control = new ChadController(this);
@@ -106,5 +110,5 @@ public class ChadWindow extends Stage{
 		this.broadCast = broadCast;
 	}
 
-
+	
 }
