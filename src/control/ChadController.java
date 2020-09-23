@@ -2,15 +2,13 @@ package control;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.UUID;
 
 import com.google.gson.Gson;
 
 import comm.Receptor.OnMessageListener;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Toggle;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import model.DirectMessage;
@@ -38,10 +36,10 @@ public class ChadController implements OnMessageListener {
 		connection = TCPConnection.getInstance();
 		connection.setListerOnMessage(this);
 		
-		
+		try {
 		view.getSend().setOnAction(
 				(e) ->{
-				if(!view.getChatWithUser().getText().isEmpty() && !view.getBroadCast().isSelected()) {
+				if(!view.getChatWithUser().getText().isEmpty()) {
 					if(view.getBroadCast().isSelected()) {
 						if(!view.getChatWithUser().getText().isEmpty()) {
 						String id = group.getToggles().get(0).getUserData().toString();
@@ -55,7 +53,7 @@ public class ChadController implements OnMessageListener {
 						view.getChatWithUser().setText("");	
 						}
 					}else {
-					
+					try {
 						if(group.getSelectedToggle().isSelected()) {
 							if(!view.getChatWithUser().getText().isEmpty()) {
 									String id = group.getToggles().get(0).getUserData().toString();
@@ -75,61 +73,32 @@ public class ChadController implements OnMessageListener {
 							}
 						}
 						
+					}catch(Exception e1) {
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("No hay información master");
+						alert.setHeaderText("Por favor, no deje vacio el dialogo");
+						alert.setContentText("No seleccionaste a nadie!");
+
+						alert.showAndWait();
 					}
+				}
 					
 				}
 				}
 				);
-		
-		/*view.getSendBtn().setOnAction(
-				
-				(e) ->{
-					
-					String id = UUID.randomUUID().toString();
-					String date = Calendar.getInstance().getTime().toString();
-					String msg = view.getMessageTF().getText();
-					Message msgObj = new Message(id,msg,date);
-					Gson gson = new Gson();
-					
-					String json = gson.toJson(msgObj);
-					
-					connection.getEmisor().setMessage(json);
-					view.getMessageTF().setText("");
-					//view.getMessageArea().appendText(">>>" + date + " : " + msg + "\n");
-				}
-				
-				
-				
-				);
-		
-view.getSendDirectionBtn().setOnAction(
-				
-				(e) ->{
-					
-					String id = UUID.randomUUID().toString();
-					String date = Calendar.getInstance().getTime().toString();
-					String msg = view.getMessageTF().getText();
-					String clientId = view.getClientID().getText();
-					
-					if(clientId.isEmpty()) {
-						return;
-					}
-					
-					DirectMessage dmsg = new DirectMessage(id, msg, date, clientId);
-					Gson gson = new Gson();
-					
-					String json = gson.toJson(dmsg);
-					connection.getEmisor().setMessage(json);
-					view.getMessageTF().setText("");
-				}
-				
-				
-				
-				);
+		}catch(Exception e) {
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No hay información master");
+			alert.setHeaderText("Por favor, no deje vacio el dialogo");
+			alert.setContentText("I have a great message for you!");
+
+			alert.showAndWait();
+			
+		}
 		
 	}
-**/
-	}
+	
 	@Override
 	public void onMessage(String message) {
 		Platform.runLater(

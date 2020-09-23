@@ -25,23 +25,23 @@ public class Receptor extends Thread {
 		
 		BufferedReader breader = new BufferedReader(new InputStreamReader(this.is));
 		
+		try {
 		while(true) {
 			
-			try {
+			
 				String msj = breader.readLine();
-				if(msj != null) {				
-				//System.out.println("Recibido:" +msj);
-				listener.onMessage(msj);
-				}else {
-					breader.close();
-					is.close();
+				
+				if(listener != null ) {				
+					listener.onMessage(msj);
 				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 		}
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void setList(OnMessageListener listener) {
