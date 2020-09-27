@@ -13,6 +13,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class ChadWindow extends Stage{
 	
@@ -47,13 +48,17 @@ public class ChadWindow extends Stage{
 		
 		hboxAux.getChildren().add(chatWithUser);
 		hboxAux.getChildren().add(send);
-		
+
 		scene = new Scene(hbox,600,400);
 		this.setScene(scene);
-		
+
 		control = new ChadController(this);
 	}
 
+	public void closeWindow() {
+		this.close();
+	}
+	
 	public HBox getHbox() {
 		return hbox;
 	}
@@ -110,5 +115,6 @@ public class ChadWindow extends Stage{
 		this.broadCast = broadCast;
 	}
 
+	
 	
 }

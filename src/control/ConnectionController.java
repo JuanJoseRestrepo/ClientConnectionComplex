@@ -36,19 +36,22 @@ public class ConnectionController implements TCPConnection.OnConnectionListener 
 	}
 
 	@Override
-	public void onConnection() {
+	public void onConnection(String id) {
+		//-----------------------------------------------
 		// TODO Auto-generated method stub
 		// No se puede utilizar metodos con resultados grafico en un hilo que no sea principal
-		Platform.runLater(
-				
-				()->{
-					ChadWindow window = new ChadWindow();
-					window.show();
-					view.close();
-				}
-				
-				
-				);
+		if(id.isEmpty()) {
+			Platform.runLater(
+					
+					()->{
+						ChadWindow window = new ChadWindow();
+						window.show();
+						view.close();
+					}
+					
+					
+					);	
+		}
 		
 		
 	}

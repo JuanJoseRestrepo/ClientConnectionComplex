@@ -31,10 +31,11 @@ public class TCPConnection extends Thread {
 	private Receptor receptor;
 	private Emisor emisor;
 	private OnMessageListener listener;
+	private String creador;
 	private OnConnectionListener connectionListener;
 	
 	private  TCPConnection() {
-		// TODO Auto-generated constructor stub
+		creador = "";
 	}
 	
 	public static synchronized TCPConnection getInstance() {
@@ -45,6 +46,12 @@ public class TCPConnection extends Thread {
 		return instance;
 	}
 	
+	public static void reconnect() {
+		
+		instance = new TCPConnection();
+		
+	}
+	
 	
 	@Override
 	public void run() {
@@ -53,15 +60,18 @@ public class TCPConnection extends Thread {
 			System.out.println("Enviando al servidor");
 			socket = new Socket(ip,puerto);
 			System.out.println("Conectado =)");
+		
+			String msj = getCreador();
+			connectionListener.onConnection(msj);
 			
-			connectionListener.onConnection();
 			receptor = new Receptor(socket.getInputStream());
 			receptor.start();
 			
 			emisor = new Emisor(socket.getOutputStream());
 			
 			connectionListener.onConnectionListener();
-				
+		
+			
 		}catch(IOException e) {
 			
 		}
@@ -69,6 +79,16 @@ public class TCPConnection extends Thread {
 	}
 
 	
+	
+	
+	public String getCreador() {
+		return creador;
+	}
+
+	public void setCreador(String creador) {
+		this.creador = creador;
+	}
+
 	public void closeSocket() {
 		
 		try {
@@ -101,11 +121,19 @@ public class TCPConnection extends Thread {
 
 	public void setIp(String string) {
 		this.ip = ip;
-		
 	}
 	
+	
+	
+	public OnConnectionListener getConnectionListener() {
+		return connectionListener;
+	}
+
+
+
 	public interface OnConnectionListener{
-		public void onConnection();
+		//------------------------
+		public void onConnection(String id);
 		public void onConnectionListener();
 	
 	}
