@@ -64,7 +64,7 @@ public class ConnectionController implements TCPConnection.OnConnectionListener 
 		Gson gson = new Gson();
 		String msj = gson.toJson(m);
 		connection.getEmisor().setMessage(msj);
-		
+			
 	}
 	
 

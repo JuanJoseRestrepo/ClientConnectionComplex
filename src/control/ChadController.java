@@ -15,6 +15,7 @@ import main.Launcher;
 import model.DirectMessage;
 import model.Message;
 import model.NewConnection;
+import model.UserDisconnect;
 import model.UserMessage;
 import comm.TCPConnection;
 import view.ChadWindow;
@@ -25,12 +26,13 @@ public class ChadController implements OnMessageListener {
 	private ChadWindow view;
 	private TCPConnection connection;
 
-	final ToggleGroup group = new ToggleGroup();
+	private final ToggleGroup group;
 	private ArrayList<NewConnection> conectados;
 
 	public ChadController(ChadWindow view) {
 		this.view = view;
 		view.close();
+		group = new ToggleGroup();
 		conectados = new ArrayList<NewConnection>();
 		init();
 	}
@@ -123,6 +125,8 @@ public class ChadController implements OnMessageListener {
 							
 							view.getVbox1().getChildren().add(buton);
 							
+							view.getTextChat().appendText("<<<" + m.getId() + " : " + "conectado"+ "\n");
+							
 							System.out.println(conectados.size() + "   : conectados");
 						} else {
 							reloadStage();
@@ -132,26 +136,53 @@ public class ChadController implements OnMessageListener {
 					}else if(msjObj.getType().equalsIgnoreCase("UserMessage")) {
 						
 						UserMessage userM = gson.fromJson(message, UserMessage.class);
-						System.out.println(userM.getUsuariosEnviados().size() + "asdasdasdsadasdsadasd");
+	
 						
 						for(int i = 0; i < userM.getUsuariosEnviados().size();i++) {
-							
 							
 							if(!verifyRepeatUser(userM.getUsuariosEnviados().get(i).getId())) {
 								ToggleButton buton = new ToggleButton(userM.getUsuariosEnviados().get(i).getId());
 								buton.setToggleGroup(group);
 								buton.setUserData(userM.getUsuariosEnviados().get(i).getId());
-								view.getVbox1().getChildren().add(buton);								
+								view.getVbox1().getChildren().add(buton);
 							}
-							
 
 						}
+						System.out.println(group.getToggles().size());
 						
+				}else if(msjObj.getType().equalsIgnoreCase("UserDisconnect")) {
+					
+					UserDisconnect userD = gson.fromJson(message, UserDisconnect.class);
+					
+					ToggleButton butonn = new ToggleButton(userD.getId());
+					ToggleButton disconectUser = new ToggleButton(userD.getId() + " " + "Desconectado");
+					disconectUser.setDisable(true);
+					butonn.setToggleGroup(group);
+					
+					for(int i = 0; i < group.getToggles().size();i++) {
+						if(group.getToggles().get(i).getUserData().equals(userD.getId())) {
+							conectados.remove(group.getToggles().get(i).getUserData());
+							ToggleButton aux = (ToggleButton) group.getToggles().get(i);
+							butonn.getToggleGroup().getToggles().remove(group.getToggles().get(i));
+							group.getToggles().remove(group.getToggles().get(i));	
+							System.out.println(group.getToggles().size() + "Miraaaa");
+							view.getVbox1().getChildren().remove(aux);
+							break;
+						}
 						
-					}else {
+					}
+			
+					System.out.println("   :soy el index xD" +  "   " + userD.getId() + "  index" + group.getToggles().size());
+					
+					view.getVbox1().getChildren().add(disconectUser);
+
+
+					view.getTextChat().appendText("<<<" + userD.getId() + " : " + "desconectado" + "\n");
+					
+				}else {
 						
 						view.getTextChat().appendText("<<<" + msjObj.getId() + " : " + msjObj.getBody() + "\n");
-
+						
 					}
 
 				}
@@ -160,18 +191,19 @@ public class ChadController implements OnMessageListener {
 
 	}
 
+	
 	public Boolean verifyRepeatUser(String id) {
 
 		boolean t = false;
-
+		System.out.println(id + "go crazy");
 		for (int i = 0; i < group.getToggles().size() && !t; i++) {
-
+			
 			if (group.getToggles().get(i).getUserData().toString().equalsIgnoreCase(id)) {
 
 				t = true;
 
 			}
-
+			
 		}
 
 		return t;
